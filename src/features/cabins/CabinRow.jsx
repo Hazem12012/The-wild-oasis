@@ -38,3 +38,16 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
+
+function CabinRow({cabin, key}) {
+  return (
+    <TableRow role="row">
+      <Img>{cabin.image}</Img>
+      <Cabin>{cabin.description}</Cabin>
+      <Price>{cabin.regularPrice}</Price>
+      <Discount>{cabin.discount}</Discount>
+    </TableRow>
+  );
+}
+
+export default CabinRow;
