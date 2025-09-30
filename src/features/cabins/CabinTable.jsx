@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCabins } from "../../services/apiCapins";
 import styled from "styled-components";
 import Spinner from "./../../ui/Spinner";
 import CabinRow from "./CabinRow";
+import toast from "./../../../node_modules/react-hot-toast/src/index";
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -30,12 +32,21 @@ function CabinTable() {
   const {
     data: cabins,
     isLoading,
+    isError,
     error,
   } = useQuery({
     queryKey: ["cabins"],
     queryFn: getCabins,
   });
+
+  // useEffect(() => {
+  //   if (isError) {
+  //     toast.error(error.message);
+  //   }
+  // }, [isError, error]);
+
   if (isLoading) return <Spinner />;
+  if (isError) return <div>{error.message})</div>;
 
   return (
     <Table role='table'>
