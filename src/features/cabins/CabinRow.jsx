@@ -4,10 +4,6 @@ import { deleteCabin } from "../../services/apiCapins";
 import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-
-
-
-
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
@@ -51,7 +47,8 @@ function CabinRow({ cabin }) {
   const { image, maxCapacity, regularPrice, name, discount, id } = cabin;
 
   const quaryClient = useQueryClient();
-  const { isLoading, mutate } = useMutation({
+
+  const { isPending: isDeleting, mutate } = useMutation({
     mutationFn: deleteCabin,
     onSuccess: () => {
       toast.success("Cabin successfully deelted");
@@ -68,7 +65,7 @@ function CabinRow({ cabin }) {
       <div> Fits up to {maxCapacity} gustes</div>
       <Price>{formatCurrency(regularPrice)}</Price>
       <Discount>{formatCurrency(discount)}</Discount>
-      <button disabled={isLoading} onClick={() => mutate(id)}>
+      <button disabled={isDeleting} onClick={() => mutate(id)}>
         Delete
       </button>
     </TableRow>
