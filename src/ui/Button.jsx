@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { max } from "./../../node_modules/date-fns/fp/max";
 
 const Button = styled.button.attrs((props) => ({
   size: props.size || "medium",
@@ -7,7 +8,6 @@ const Button = styled.button.attrs((props) => ({
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
-  width: 100%;
   ${(props) => sizes[props.size]}
   ${(props) => variations[props.variation]}
 `;
@@ -19,8 +19,9 @@ const sizes = {
     text-transform: uppercase;
     font-weight: 600;
     text-align: center;
-  `,
+    `,
   medium: css`
+  width: 100%;
     font-size: 1.4rem;
     padding: 1.2rem 1.6rem;
     font-weight: 500;
