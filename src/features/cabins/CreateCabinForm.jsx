@@ -9,8 +9,9 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCabin } from "../../services/apiCapins";
 import toast from "react-hot-toast";
+import FormRow from "../../ui/FormRow";
 
-const FormRow = styled.div`
+const FormRow2 = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: 24rem 1fr 1.2fr;
@@ -49,7 +50,6 @@ const Error = styled.span`
 function CreateCabinForm() {
   const { register, handleSubmit, reset, getValues, formState } = useForm();
   const { errors } = formState;
-  console.log(errors);
 
   const queryClient = useQueryClient();
   const { mutate, isPending: isCreating } = useMutation({
@@ -69,22 +69,22 @@ function CreateCabinForm() {
   }
   async function onError(errors) {
     console.log(errors);
+    toast.error("error in the data field");
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
-      <FormRow>
-        <Label htmlFor='name'>Cabin name</Label>
+      <FormRow label={"cabin name"} error={errors?.name?.message}>
         <Input
+          disabled={isCreating}
           {...register("name", { required: "This feald is required" })}
           type='text'
           id='name'
         />
-        {errors?.name?.message && <Error>{errors.name.message}</Error>}
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor='maxCapacity'>Maximum capacity</Label>
+      <FormRow error={errors?.maxCapacity?.message} label='Maximum capacity'>
         <Input
+          disabled={isCreating}
           {...register("maxCapacity", {
             required: "This feald is required",
             min: {
@@ -97,9 +97,11 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor='regularPrice'>Regular price</Label>
+      <FormRow label={"Regular price"} error={errors?.regularPrice?.message}>
         <Input
+          disabled={isCreating}
+          type='number'
+          id='regularPrice'
           {...register("regularPrice", {
             required: "This feald is required",
             min: {
@@ -107,18 +109,16 @@ function CreateCabinForm() {
               message: "price should be at least 1",
             },
           })}
-          type='number'
-          id='regularPrice'
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor='discount'>Discount</Label>
+      <FormRow label={"Discount"} error={errors?.discount?.message}>
         <Input
+          disabled={isCreating}
           {...register("discount", {
             required: "This feald is required",
             validate: (value) =>
-              value <= getValues().regularPrice ||
+              value <= Number(getValues("regularPrice")) ||
               "Discount should be less than regular price",
           })}
           type='number'
@@ -127,8 +127,10 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor='description'>Description for website</Label>
+      <FormRow
+        disabled={isCreating}
+        label={"Description"}
+        error={errors?.description?.message}>
         <Textarea
           {...register("description", { required: "This feald is required" })}
           type='number'
@@ -137,17 +139,18 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor='image'>Cabin photo</Label>
-        <FileInput id='image' accept='image/*' />
+      <FormRow label={"Cabin photo"} error={errors?.image?.message}>
+        <FileInput disabled={isCreating} id='image' accept='image/*' />
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button variation='secondary' type='reset'>
+        {" "}
+        <Button disabled={isCreating} variation='secondary' type='reset'>
           Cancel
         </Button>
-        <Button disabled={isCreating}>Add cabin</Button>
+        <Button disabled={isCreating} disabled={isCreating}>
+          Add cabin
+        </Button>
       </FormRow>
     </Form>
   );
