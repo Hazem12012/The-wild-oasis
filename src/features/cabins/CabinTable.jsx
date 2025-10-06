@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getCabins } from "../../services/apiCapins";
+import { getCabins } from "../../services/apiCabins";
 import styled from "styled-components";
 import Spinner from "./../../ui/Spinner";
 import CabinRow from "./CabinRow";
@@ -39,14 +39,9 @@ function CabinTable() {
     queryFn: getCabins,
   });
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     toast.error(error.message);
-  //   }
-  // }, [isError, error]);
 
   if (isLoading) return <Spinner />;
-  if (isError) return <div>{error.message})</div>;
+  if (isError) return <div>{error.message}</div>;
 
   return (
     <Table role='table'>

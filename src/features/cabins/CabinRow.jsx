@@ -1,8 +1,10 @@
-import styled from "styled-components";
+import { useState } from "react";
 import { formatCurrency } from "../../utils/helpers";
-import { deleteCabin } from "../../services/apiCapins";
+import { deleteCabin } from "../../services/apiCabins";
 import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
+import styled from "styled-components";
 import toast from "react-hot-toast";
+import CreateCabinForm from "./CreateCabinForm";
 
 const TableRow = styled.div`
   display: grid;
@@ -44,10 +46,10 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
+  const [showForm, setShowForm] = useState(false);
+
   const { image, maxCapacity, regularPrice, name, discount, id } = cabin;
-
   const quaryClient = useQueryClient();
-
   const { isPending: isDeleting, mutate } = useMutation({
     mutationFn: deleteCabin,
     onSuccess: () => {
@@ -59,16 +61,32 @@ function CabinRow({ cabin }) {
     },
   });
   return (
-    <TableRow role='row'>
-      <Img src={image} />
-      <Cabin>{name}</Cabin>
-      <div> Fits up to {maxCapacity} gustes</div>
-      <Price>{formatCurrency(regularPrice)}</Price>
-      <Discount>{formatCurrency(discount)}</Discount>
-      <button disabled={isDeleting} onClick={() => mutate(id)}>
-        Delete
-      </button>
-    </TableRow>
+    <>
+      <TableRow role='row'>
+        <Img src={image} />
+        <Cabin>{name}</Cabin>
+        <div> Fits up to {maxCapacity} gustes</div>
+        <Price>{formatCurrency(regularPrice)}</Price>
+        <Discount>{formatCurrency(discount)}</Discount>
+        <div>
+          <button
+            disabled={isDeleting}
+            onClick={() => setShowForm((show) => !show)}>
+            Edit
+          </button>
+          <button disabled={isDeleting} onClick={() => mutate(id)}>
+            Delete
+          </button>
+        </div>
+      </TableRow>
+      {showForm && (
+        <CreateCabinForm
+          cabinToEdit={cabin}
+          showForm={showForm}
+          setShowForm={setShowForm}
+        />
+      )}
+    </>
   );
 }
 
