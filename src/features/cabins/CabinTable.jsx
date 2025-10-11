@@ -2,6 +2,7 @@ import { useCabins } from "./useCabins";
 import styled from "styled-components";
 import Spinner from "./../../ui/Spinner";
 import CabinRow from "./CabinRow";
+import toast from "react-hot-toast";
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -28,7 +29,10 @@ const TableHeader = styled.header`
 function CabinTable() {
   const { cabins, isLoading, isError, error } = useCabins();
   if (isLoading) return <Spinner />;
-  if (isError) return <div>{error.message}</div>;
+  if (isError) {
+    toast.error("can't reload the data :)")
+    return <div>{error.message}</div>;
+  }
 
   return (
     <Table role='table'>
