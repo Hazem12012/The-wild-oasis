@@ -64,8 +64,8 @@ function CabinRow({ cabin }) {
 
   return (
     <>
-      <TableRow role='row'>
-        <Img src={image} />
+      <TableRow role="row">
+        <Img src={image || ""} alt={name || "N/A"} />
         <Cabin>{name}</Cabin>
         <div> Fits up to {maxCapacity} gustes</div>
         <Price>{formatCurrency(regularPrice)}</Price>
@@ -75,7 +75,7 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div>
-          <button disabled={isCreating || isDeleting } onClick={handleDuplicate}>
+          <button disabled={isCreating || isDeleting} onClick={handleDuplicate}>
             {" "}
             <HiSquare2Stack />
           </button>
@@ -84,12 +84,14 @@ function CabinRow({ cabin }) {
             onClick={() => setShowForm((show) => !show)}>
             <HiPencilSquare />
           </button>
-          <button disabled={isCreating || isDeleting} onClick={() => deleteCabin(id)}>
+          <button
+            disabled={isCreating || isDeleting}
+            onClick={() => deleteCabin(id)}>
             <HiTrash />
           </button>
         </div>
       </TableRow>
-      {showForm && ( 
+      {showForm && (
         <CreateCabinForm
           cabinToEdit={cabin}
           showForm={showForm}
