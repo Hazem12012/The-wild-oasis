@@ -10,8 +10,8 @@ const Button = styled.button.attrs((props) => ({
   box-shadow: var(--shadow-sm);
   ${(props) => sizes[props.size]}
   ${(props) => variations[props.variation]}
+  margin-top:10px;
 `;
-
 const sizes = {
   small: css`
     font-size: 1.2rem;
@@ -19,9 +19,9 @@ const sizes = {
     text-transform: uppercase;
     font-weight: 600;
     text-align: center;
-    `,
+  `,
   medium: css`
-  width: 100%;
+    width: 100%;
     font-size: 1.4rem;
     padding: 1.2rem 1.6rem;
     font-weight: 500;

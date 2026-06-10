@@ -21,9 +21,10 @@ const TableRow = styled.div`
 const Img = styled.img`
   display: block;
   width: 6.4rem;
-  aspect-ratio: 3 / 2;
+  max-width: 50%;
+  // aspect-ratio: 3 / 2;
   object-fit: cover;
-  object-position: center;
+  object-position:;
   transform: scale(1.5) translateX(-7px);
 `;
 
@@ -74,17 +75,22 @@ function CabinRow({ cabin }) {
         ) : (
           <span>&mdash;</span>
         )}
-        <div>
-          <button disabled={isCreating || isDeleting} onClick={handleDuplicate}>
+        <div style={{ gap: "5px", display: "flex" }}>
+          <button
+            style={{ padding: "8px" }}
+            disabled={isCreating || isDeleting}
+            onClick={handleDuplicate}>
             {" "}
             <HiSquare2Stack />
           </button>
           <button
+            style={{ padding: "8px" }}
             disabled={isCreating || isDeleting}
             onClick={() => setShowForm((show) => !show)}>
             <HiPencilSquare />
           </button>
           <button
+            style={{ padding: "8px" }}
             disabled={isCreating || isDeleting}
             onClick={() => deleteCabin(id)}>
             <HiTrash />

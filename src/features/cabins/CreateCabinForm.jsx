@@ -47,8 +47,9 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
   }
   const isWorking = isCreating || isEditing;
 
+
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)} type={ showForm ? "modal" : "regular" }>
       <FormRow label={"cabin name"} error={errors?.name?.message}>
         <Input
           disabled={isWorking}

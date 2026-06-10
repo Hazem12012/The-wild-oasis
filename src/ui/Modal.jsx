@@ -49,8 +49,9 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
 export function Modal({ children, onClose }) {
-  return (
+  return createPortal(
     <Overlay>
       <StyledModal>
         <Button onClick={onClose} padding="2px">
@@ -58,6 +59,7 @@ export function Modal({ children, onClose }) {
         </Button>
         <div>{children}</div>
       </StyledModal>
-    </Overlay>
+    </Overlay>,
+    document.body,
   );
 }

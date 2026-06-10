@@ -14,7 +14,10 @@ export default function AddCabin() {
       </Button>
       {isOpenModel && (
         <Modal onClose={() => setIsOpenModel(false)}>
-          <CreateCabinForm setShowForm={() => setIsOpenModel(false)} />
+          <CreateCabinForm
+            setShowForm={() => setIsOpenModel(false)}
+            showForm={isOpenModel}
+          />
         </Modal>
       )}
     </div>
