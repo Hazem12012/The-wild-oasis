@@ -27,20 +27,23 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
         { newCabinData: { ...data, image }, id: editId },
         {
           onSuccess: (data) => {
-            reset(), setShowForm(false);
+            (reset(), setShowForm());
           },
-        }
+        },
       );
     else
       createCabin(
         { ...data, image: image },
         {
-          onSuccess: (data) => reset(),
-        }
+          onSuccess: (data) => {
+            reset();
+            setShowForm();
+          },
+        },
       );
   }
   function onError(errors) {
-    // console.log(errors);
+    console.log(errors);
   }
   const isWorking = isCreating || isEditing;
 
@@ -52,12 +55,12 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
           {...register("name", {
             required: "This feald is required",
           })}
-          type='text'
-          id='name'
+          type="text"
+          id="name"
         />
       </FormRow>
 
-      <FormRow error={errors?.maxCapacity?.message} label='Maximum capacity'>
+      <FormRow error={errors?.maxCapacity?.message} label="Maximum capacity">
         <Input
           disabled={isWorking}
           {...register("maxCapacity", {
@@ -68,16 +71,16 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
               message: "Capacity should be at least 1",
             },
           })}
-          type='number'
-          id='maxCapacity'
+          type="number"
+          id="maxCapacity"
         />
       </FormRow>
 
       <FormRow label={"Regular price"} error={errors?.regularPrice?.message}>
         <Input
           disabled={isWorking}
-          type='number'
-          id='regularPrice'
+          type="number"
+          id="regularPrice"
           {...register("regularPrice", {
             required: "This feald is required",
             valueAsNumber: true,
@@ -99,8 +102,8 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
               value <= Number(getValues("regularPrice")) ||
               "Discount should be less than regular price",
           })}
-          type='number'
-          id='discount'
+          type="number"
+          id="discount"
           defaultValue={0}
         />
       </FormRow>
@@ -108,9 +111,9 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
       <FormRow label={"Description"} error={errors?.description?.message}>
         <Textarea
           {...register("description", { required: "This feald is required" })}
-          type='number'
-          id='description'
-          defaultValue=''
+          type="number"
+          id="description"
+          defaultValue=""
         />
       </FormRow>
 
@@ -118,9 +121,9 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
         <FormRow label={"Cabin photo"} error={errors?.image?.message}>
           <FileInput
             disabled={isWorking}
-            id='image'
-            type='file'
-            accept='image/*'
+            id="image"
+            type="file"
+            accept="image/*"
             {...register("image", {
               required: isEditSession ? false : "This feald is required",
             })}
@@ -132,10 +135,10 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
         {" "}
         <Button
           disabled={isWorking}
-          variation='secondary'
-          type='reset'
+          variation="secondary"
+          type="reset"
           onClick={() => {
-            setShowForm(!showForm);
+            setShowForm();
           }}>
           Cancel
         </Button>
