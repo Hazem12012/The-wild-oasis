@@ -21,11 +21,11 @@ const TableRow = styled.div`
 const Img = styled.img`
   display: block;
   width: 6.4rem;
-  max-width: 50%;
-  // aspect-ratio: 3 / 2;
+  // max-width: 50%;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
-  object-position:;
-  transform: scale(1.5) translateX(-7px);
+  // object-position: center;
+  // transform: scale(1.5) translateX(-7px);
 `;
 
 const Cabin = styled.div`
@@ -66,8 +66,20 @@ function CabinRow({ cabin }) {
   return (
     <>
       <TableRow role="row">
-        <Img src={image || ""} alt={name || "N/A"} />
-        <Cabin>{name}</Cabin>
+        <Img src={image || ""} alt={name || "N/A"}  />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Cabin>{name}</Cabin>
+          <div
+            style={{
+              fontSize: "1rem",
+              color: "var(--color-grey-500)",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+            }}>
+            {description}
+          </div>
+        </div>
         <div> Fits up to {maxCapacity} gustes</div>
         <Price>{formatCurrency(regularPrice)}</Price>
         {discount ? (

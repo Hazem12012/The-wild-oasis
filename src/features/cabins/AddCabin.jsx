@@ -5,21 +5,53 @@ import Button from "../../ui/Button";
 import CreateCabinForm from "./CreateCabinForm";
 import { Modal } from "../../ui/Modal";
 
-export default function AddCabin() {
-  const [isOpenModel, setIsOpenModel] = useState(false);
+export function AddCabin() {
+  const [openName, setOpenName] = useState();
+
   return (
-    <div>
-      <Button onClick={() => setIsOpenModel((show) => !show)}>
-        Add new cabin
-      </Button>
-      {isOpenModel && (
-        <Modal onClose={() => setIsOpenModel(false)}>
+    <Modal openName={openName} setOpenName={setOpenName}>
+      {openName === "cabin-form" && (
+        <Modal.Window name="cabin-form">
           <CreateCabinForm
-            setShowForm={() => setIsOpenModel(false)}
-            showForm={isOpenModel}
+            setShowForm={() => setOpenName("")}
+            showForm={openName === "cabin-form"}
           />
-        </Modal>
+        </Modal.Window>
       )}
-    </div>
+      {openName !== "cabin-form" && (
+        <Modal.Open opens="cabin-form">
+          <Button onClick={() => setOpenName("cabin-form")}>
+            Add New Cabin
+          </Button>
+        </Modal.Open>
+      )}
+      <Modal.Open opens="table">
+        <Button onClick={() => setOpenName("table")}>Show Table</Button>
+      </Modal.Open>
+      {openName === "table" && (
+        <Modal.Window name="table">
+          <CabinTable />
+        </Modal.Window>
+      )}
+    </Modal>
   );
 }
+
+// export default function AddCabin() {
+//   const [isOpenModel, setIsOpenModel] = useState(false);
+//   return (
+//     <div>
+//       <Button onClick={() => setIsOpenModel((show) => !show)}>
+//         Add new cabin
+//       </Button>
+//       {isOpenModel && (
+//         <Modal onClose={() => setIsOpenModel(false)}>
+//           <CreateCabinForm
+//             setShowForm={() => setIsOpenModel(false)}
+//             showForm={isOpenModel}
+//           />
+//         </Modal>
+//       )}
+//     </div>
+//   );
+// }
