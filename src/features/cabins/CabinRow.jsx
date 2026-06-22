@@ -49,7 +49,7 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const [editCabin, setEditCabin] = useState();
+  const [openName, setOpenName] = useState();
   const { image, maxCapacity, regularPrice, name, discount, id, description } =
     cabin;
   const { isDeleting, deleteCabin } = useDeleteCabin();
@@ -99,57 +99,73 @@ function CabinRow({ cabin }) {
             <HiSquare2Stack />
           </button>
 
-          {/* Edit Cabin button */}
-
-          {/* <button
-            style={{ padding: "8px" }}
-            disabled={isCreating || isDeleting}
-            onClick={() => setEditCabin((show) => !show)}>
-            <HiPencilSquare />
-          </button> */}
-
-          <Modal openName={editCabin} setOpenName={setEditCabin}>
+          <Modal openName={openName} setOpenName={setOpenName}>
+            {/* Edit Cabin button */}
             <Modal.Open opens="edit-cabin">
               <button
                 style={{ padding: "8px" }}
                 disabled={isCreating || isDeleting}
-                onClick={() => setEditCabin("edit-cabin")}>
+                onClick={() => setOpenName("edit-cabin")}>
                 <HiPencilSquare />
               </button>
             </Modal.Open>
 
-            {editCabin === "edit-cabin" && (
+            {openName === "edit-cabin" && (
               <Modal.Window name="edit-cabin">
                 <CreateCabinForm
                   cabinToEdit={cabin}
-                  showForm={editCabin === "edit-cabin"}
-                  setShowForm={() => setEditCabin("")}
+                  showForm={openName === "edit-cabin"}
+                  setShowForm={() => setOpenName("")}
                 />
+              </Modal.Window>
+            )}
+            {/* Delete Cabin button */}
+            <Modal.Open opens="delete-cabin">
+              <button
+                style={{ padding: "8px" }}
+                disabled={isCreating || isDeleting}
+                // onClick={() => deleteCabin(id)}
+                onClick={() => setOpenName("delete-cabin")}>
+                <HiTrash />
+              </button>
+            </Modal.Open>
+
+            {openName === "delete-cabin" && (
+              <Modal.Window name="delete-cabin">
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}>
+                  <span>
+                    Are you sure you want to delete this cabin{" "}
+                    <span style={{ fontWeight: "bold", color: "red" }}>
+                      "{name}"
+                    </span>
+                    ?
+                  </span>
+                  <Button
+                    variation="danger"
+                    onClick={() => deleteCabin(id)}
+                    disabled={isDeleting}>
+                    Delete
+                  </Button>
+                </div>
               </Modal.Window>
             )}
           </Modal>
 
-          {/* Delete Cabin button */}
-          <button
+          {/* <button
             style={{ padding: "8px" }}
             disabled={isCreating || isDeleting}
             onClick={() => deleteCabin(id)}>
             <HiTrash />
-          </button>
+          </button> */}
         </div>
       </TableRow>
     </>
   );
 }
-
-// {
-//   showForm && (
-//     <CreateCabinForm
-//       cabinToEdit={cabin}
-//       showForm={showForm}
-//       setShowForm={setShowForm}
-//     />
-//   );
-// }
 
 export default CabinRow;
