@@ -10,6 +10,7 @@ export function AddCabin() {
 
   return (
     <Modal openName={openName} setOpenName={setOpenName}>
+      {/* Add nesw cabin */}
       {openName === "cabin-form" && (
         <Modal.Window name="cabin-form">
           <CreateCabinForm
@@ -18,6 +19,7 @@ export function AddCabin() {
           />
         </Modal.Window>
       )}
+
       {openName !== "cabin-form" && (
         <Modal.Open opens="cabin-form">
           <Button onClick={() => setOpenName("cabin-form")}>
@@ -25,6 +27,8 @@ export function AddCabin() {
           </Button>
         </Modal.Open>
       )}
+
+      {/* Show cabins table */}
       <Modal.Open opens="table">
         <Button onClick={() => setOpenName("table")}>Show Table</Button>
       </Modal.Open>

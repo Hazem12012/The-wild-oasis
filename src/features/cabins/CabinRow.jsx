@@ -5,6 +5,8 @@ import { useDeleteCabin } from "./useDeleteCabin";
 import CreateCabinForm from "./CreateCabinForm";
 import { useCreateCabin } from "./useCreateCabin";
 import { HiSquare2Stack, HiPencilSquare, HiTrash } from "react-icons/hi2";
+import { Modal } from "../../ui/Modal";
+import Button from "../../ui/Button";
 
 const TableRow = styled.div`
   display: grid;
@@ -47,7 +49,7 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const [showForm, setShowForm] = useState(false);
+  const [editCabin, setEditCabin] = useState();
   const { image, maxCapacity, regularPrice, name, discount, id, description } =
     cabin;
   const { isDeleting, deleteCabin } = useDeleteCabin();
@@ -66,7 +68,7 @@ function CabinRow({ cabin }) {
   return (
     <>
       <TableRow role="row">
-        <Img src={image || ""} alt={name || "N/A"}  />
+        <Img src={image || ""} alt={name || "N/A"} />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Cabin>{name}</Cabin>
           <div
@@ -88,6 +90,7 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div style={{ gap: "5px", display: "flex" }}>
+          {/* Duplicate Cabin button */}
           <button
             style={{ padding: "8px" }}
             disabled={isCreating || isDeleting}
@@ -95,12 +98,38 @@ function CabinRow({ cabin }) {
             {" "}
             <HiSquare2Stack />
           </button>
-          <button
+
+          {/* Edit Cabin button */}
+
+          {/* <button
             style={{ padding: "8px" }}
             disabled={isCreating || isDeleting}
-            onClick={() => setShowForm((show) => !show)}>
+            onClick={() => setEditCabin((show) => !show)}>
             <HiPencilSquare />
-          </button>
+          </button> */}
+
+          <Modal openName={editCabin} setOpenName={setEditCabin}>
+            <Modal.Open opens="edit-cabin">
+              <button
+                style={{ padding: "8px" }}
+                disabled={isCreating || isDeleting}
+                onClick={() => setEditCabin("edit-cabin")}>
+                <HiPencilSquare />
+              </button>
+            </Modal.Open>
+
+            {editCabin === "edit-cabin" && (
+              <Modal.Window name="edit-cabin">
+                <CreateCabinForm
+                  cabinToEdit={cabin}
+                  showForm={editCabin === "edit-cabin"}
+                  setShowForm={() => setEditCabin("")}
+                />
+              </Modal.Window>
+            )}
+          </Modal>
+
+          {/* Delete Cabin button */}
           <button
             style={{ padding: "8px" }}
             disabled={isCreating || isDeleting}
@@ -109,15 +138,18 @@ function CabinRow({ cabin }) {
           </button>
         </div>
       </TableRow>
-      {showForm && (
-        <CreateCabinForm
-          cabinToEdit={cabin}
-          showForm={showForm}
-          setShowForm={setShowForm}
-        />
-      )}
     </>
   );
 }
+
+// {
+//   showForm && (
+//     <CreateCabinForm
+//       cabinToEdit={cabin}
+//       showForm={showForm}
+//       setShowForm={setShowForm}
+//     />
+//   );
+// }
 
 export default CabinRow;

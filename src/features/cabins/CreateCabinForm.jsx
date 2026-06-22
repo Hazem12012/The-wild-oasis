@@ -7,6 +7,17 @@ import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
+import styled from "styled-components";
+
+const Img = styled.img`
+  display: block;
+  width: 6.4rem;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+  transform: translateX(-2px);
+`;
+
 
 function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
   const { id: editId, ...editValue } = cabinToEdit;
@@ -47,9 +58,11 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
   }
   const isWorking = isCreating || isEditing;
 
-
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)} type={ showForm ? "modal" : "regular" }>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={showForm ? "modal" : "regular"}>
+      {/* Cabin Name */}
       <FormRow label={"cabin name"} error={errors?.name?.message}>
         <Input
           disabled={isWorking}
@@ -61,6 +74,7 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
         />
       </FormRow>
 
+      {/* Capacity */}
       <FormRow error={errors?.maxCapacity?.message} label="Maximum capacity">
         <Input
           disabled={isWorking}
@@ -77,6 +91,7 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
         />
       </FormRow>
 
+      {/* Regoler price */}
       <FormRow label={"Regular price"} error={errors?.regularPrice?.message}>
         <Input
           disabled={isWorking}
@@ -93,6 +108,7 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
         />
       </FormRow>
 
+      {/* Discount */}
       <FormRow label={"Discount"} error={errors?.discount?.message}>
         <Input
           disabled={isWorking}
@@ -109,6 +125,7 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
         />
       </FormRow>
 
+      {/* Description */}
       <FormRow label={"Description"} error={errors?.description?.message}>
         <Textarea
           {...register("description", { required: "This feald is required" })}
@@ -118,8 +135,14 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
         />
       </FormRow>
 
-      {
-        <FormRow label={"Cabin photo"} error={errors?.image?.message}>
+      {/* atached image */}
+      <FormRow label={"Cabin photo"} error={errors?.image?.message}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "20px",
+          }}>
           <FileInput
             disabled={isWorking}
             id="image"
@@ -129,9 +152,11 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
               required: isEditSession ? false : "This feald is required",
             })}
           />
-        </FormRow>
-      }
+          <Img src={cabinToEdit.image} alt={cabinToEdit.name} />
+        </div>
+      </FormRow>
 
+      {/* buttons */}
       <FormRow>
         {" "}
         <Button

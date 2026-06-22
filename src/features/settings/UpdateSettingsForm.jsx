@@ -26,8 +26,6 @@ function UpdateSettingsForm() {
   }
 
   return (
-    <div>
-
     <Form>
       <FormRow label="Minimum nights/booking">
         <Input
@@ -66,7 +64,6 @@ function UpdateSettingsForm() {
         />
       </FormRow>
     </Form>
-          </div>
   );
 }
 
