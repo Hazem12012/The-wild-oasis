@@ -18,18 +18,22 @@ const Img = styled.img`
   transform: translateX(-2px);
 `;
 
-
 function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
   const { id: editId, ...editValue } = cabinToEdit;
   const isEditSession = Boolean(editId);
 
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: isEditSession ? editValue : {},
-  });
+  const { register, handleSubmit, reset, getValues, formState, watch } =
+    useForm({
+      defaultValues: isEditSession ? editValue : {},
+    });
   const { errors } = formState;
   const { isCreating, createCabin } = useCreateCabin();
 
   const { editCabin, isEditing } = useEditCabin();
+
+  // handel view attached image
+  const isWorking = isCreating || isEditing;
+  const imageFile = watch("image");
 
   function onSubmit(data) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
@@ -56,7 +60,11 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
   function onError(errors) {
     console.log(errors);
   }
-  const isWorking = isCreating || isEditing;
+
+  const previewImage =
+    imageFile?.[0] instanceof File
+      ? URL.createObjectURL(imageFile[0])
+      : cabinToEdit?.image;
 
   return (
     <Form
@@ -152,7 +160,11 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
               required: isEditSession ? false : "This feald is required",
             })}
           />
-          <Img src={cabinToEdit.image} alt={cabinToEdit.name} />
+          {isEditSession && !previewImage
+            ? cabinToEdit?.image && (
+                <Img src={cabinToEdit.image} alt={cabinToEdit.name} />
+              )
+            : previewImage && <Img src={previewImage} alt={cabinToEdit.name} />}
         </div>
       </FormRow>
 

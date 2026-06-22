@@ -7,6 +7,7 @@ import { useCreateCabin } from "./useCreateCabin";
 import { HiSquare2Stack, HiPencilSquare, HiTrash } from "react-icons/hi2";
 import { Modal } from "../../ui/Modal";
 import Button from "../../ui/Button";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const TableRow = styled.div`
   display: grid;
@@ -119,12 +120,12 @@ function CabinRow({ cabin }) {
                 />
               </Modal.Window>
             )}
+
             {/* Delete Cabin button */}
             <Modal.Open opens="delete-cabin">
               <button
                 style={{ padding: "8px" }}
                 disabled={isCreating || isDeleting}
-                // onClick={() => deleteCabin(id)}
                 onClick={() => setOpenName("delete-cabin")}>
                 <HiTrash />
               </button>
@@ -132,36 +133,16 @@ function CabinRow({ cabin }) {
 
             {openName === "delete-cabin" && (
               <Modal.Window name="delete-cabin">
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                  }}>
-                  <span>
-                    Are you sure you want to delete this cabin{" "}
-                    <span style={{ fontWeight: "bold", color: "red" }}>
-                      "{name}"
-                    </span>
-                    ?
-                  </span>
-                  <Button
-                    variation="danger"
-                    onClick={() => deleteCabin(id)}
-                    disabled={isDeleting}>
-                    Delete
-                  </Button>
-                </div>
+                <ConfirmDelete
+                  resourceName={name}
+                  disabled={isDeleting}
+                  onConfirm={() => deleteCabin(id)}
+                  onCloseModal={() => setOpenName()}
+                />
               </Modal.Window>
             )}
+            
           </Modal>
-
-          {/* <button
-            style={{ padding: "8px" }}
-            disabled={isCreating || isDeleting}
-            onClick={() => deleteCabin(id)}>
-            <HiTrash />
-          </button> */}
         </div>
       </TableRow>
     </>
