@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { createContext, useContext } from "react";
 
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -40,7 +41,7 @@ const StyledBody = styled.section`
   margin: 0.4rem 0;
 `;
 
-const Footer = styled.footer`
+const StyledFooter = styled.footer`
   background-color: var(--color-grey-50);
   display: flex;
   justify-content: center;
@@ -52,9 +53,64 @@ const Footer = styled.footer`
   }
 `;
 
-const Empty = styled.p`
+const StyledEmpty = styled.p`
   font-size: 1.6rem;
   font-weight: 500;
   text-align: center;
   margin: 2.4rem;
 `;
+
+const TableContext = createContext();
+
+export function Table({ columns, children }) {
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">{children}</StyledTable>
+    </TableContext.Provider>
+  );
+}
+
+function Header({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledHeader columns={columns} role="row" as="header">
+      {children}
+    </StyledHeader>
+  );
+}
+
+function Row({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledRow columns={columns} role="row">
+      {children}
+    </StyledRow>
+  );
+}
+
+function Body({ data, render }) {
+  const { columns } = useContext(TableContext);
+  if (data.length <= 0)
+    return <StyledEmpty>No cabin found at the moment</StyledEmpty>;
+  return (
+    <StyledBody columns={columns} role="row">
+      {data?.map(render)}
+    </StyledBody>
+  );
+}
+
+function Footer({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledFooter columns={columns} role="row" as="footer">
+      {children}
+    </StyledFooter>
+  );
+}
+
+Table.Header = Header;
+Table.Row = Row;
+Table.Body = Body;
+Table.Footer = Footer;
+
+export default Table;

@@ -1,13 +1,21 @@
 import { useCabins } from "./useCabins";
 import styled from "styled-components";
-import Spinner from "./../../ui/Spinner";
+import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
 import toast from "react-hot-toast";
-import Table from "../../ui/Table";
+
+
+const Table = styled.div`
+  border: 1px solid var(--color-grey-200);
+  font-size: 1.4rem;
+  background-color: var(--color-grey-0);
+  border-radius: 7px;
+  overflow: hidden;
+`;
 
 const TableHeader = styled.header`
   display: grid;
-  /* grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr; */
+  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
   column-gap: 2.4rem;
   align-items: center;
   background-color: var(--color-grey-50);
@@ -23,24 +31,23 @@ function CabinTable() {
   const { cabins, isLoading, isError, error } = useCabins();
   if (isLoading) return <Spinner />;
   if (isError) {
-    toast.error("can't reload the data :)");
+    toast.error("can't reload the data :)")
     return <div>{error.message}</div>;
   }
 
   return (
-    <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-      <Table.Header>
+    <Table role='table'>
+      <TableHeader role='row'>
         <div></div>
         <div>cabin</div>
         <div>Capacity</div>
         <div>price</div>
         <div>discount</div>
         <div></div>
-      </Table.Header>
-      <Table.Body
-        data={cabins}
-        render={(cabin) => <CabinRow cabin={cabin} />}
-      />
+      </TableHeader>
+      {cabins.map((cabin) => (
+        <CabinRow cabin={cabin} key={cabin.id} />
+      ))}
     </Table>
   );
 }
