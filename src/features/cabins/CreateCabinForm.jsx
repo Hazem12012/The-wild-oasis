@@ -31,7 +31,7 @@ function CreateCabinForm({ cabinToEdit = {}, showForm, setShowForm }) {
 
   const { editCabin, isEditing } = useEditCabin();
 
-  // handel view attached image
+  // handle view attached image
   const isWorking = isCreating || isEditing;
   const imageFile = watch("image");
 

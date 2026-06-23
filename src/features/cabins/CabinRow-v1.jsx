@@ -100,37 +100,36 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div style={{ gap: "5px", display: "flex" }}>
+          {/* Duplicate Cabin button */}
+          <button
+            style={{
+              padding: "8px",
+              color: "blue",
+              border: "solid blue 2px",
+              borderRadius: "3px",
+            }}
+            disabled={isCreating || isDeleting}
+            onClick={handleDuplicate}>
+            {" "}
+            <HiSquare2Stack />
+          </button>
+
           <Modal openName={openName} setOpenName={setOpenName}>
-            <Menus>
-              <Menus.Toggle id={cabinId} />
+            {/* Edit Cabin button */}
+            <Modal.Open opens="edit-cabin">
+              <button
+                style={{
+                  padding: "8px",
+                  color: "green",
+                  border: "solid green 2px",
+                  borderRadius: "3px",
+                }}
+                disabled={isCreating || isDeleting}
+                onClick={() => setOpenName("edit-cabin")}>
+                <HiPencilSquare />
+              </button>
+            </Modal.Open>
 
-              <Menus.List id={cabinId}>
-                {/* Duplicate Cabin button */}
-                <Menus.Button
-                  onClick={handleDuplicate}
-                  icon={<HiSquare2Stack />}>
-                  Dublicate
-                </Menus.Button>
-                {/* Edit Cabin button */}
-                <Modal.Open opens="edit-cabin">
-                  <Menus.Button
-                    onClick={() => setOpenName("edit-cabin")}
-                    icon={<HiPencilSquare />}>
-                    Edit
-                  </Menus.Button>
-                </Modal.Open>
-
-                {/* Delete Cabin button */}
-                <Modal.Open opens="delete-cabin">
-                  <Menus.Button
-                    onClick={() => setOpenName("delete-cabin")}
-                    icon={<HiTrash />}>
-                    Delete
-                  </Menus.Button>
-                </Modal.Open>
-              </Menus.List>
-            </Menus>
-            {/* Edit window */}
             {openName === "edit-cabin" && (
               <Modal.Window name="edit-cabin">
                 <CreateCabinForm
@@ -140,7 +139,21 @@ function CabinRow({ cabin }) {
                 />
               </Modal.Window>
             )}
-            {/* Delete window */}
+
+            {/* Delete Cabin button */}
+            <Modal.Open opens="delete-cabin">
+              <button
+                style={{
+                  padding: "8px",
+                  color: "red",
+                  border: "solid red 2px",
+                  borderRadius: "3px",
+                }}
+                disabled={isCreating || isDeleting}
+                onClick={() => setOpenName("delete-cabin")}>
+                <HiTrash />
+              </button>
+            </Modal.Open>
 
             {openName === "delete-cabin" && (
               <Modal.Window name="delete-cabin">
