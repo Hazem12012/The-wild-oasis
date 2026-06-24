@@ -100,6 +100,9 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div style={{ gap: "5px", display: "flex" }}>
+
+{/* Actions Buttons */}
+
           <Modal openName={openName} setOpenName={setOpenName}>
             <Menus>
               <Menus.Toggle id={cabinId} />
