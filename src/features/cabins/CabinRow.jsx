@@ -97,11 +97,10 @@ function CabinRow({ cabin }) {
         {discount ? (
           <Discount>{formatCurrency(discount)}</Discount>
         ) : (
-          <span>&mdash;</span>
+          <span>&mdash; &mdash; &mdash;</span>
         )}
         <div style={{ gap: "5px", display: "flex" }}>
-
-{/* Actions Buttons */}
+          {/* Actions Buttons */}
 
           <Modal openName={openName} setOpenName={setOpenName}>
             <Menus>
