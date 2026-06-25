@@ -8,6 +8,7 @@ const StyledTable = styled.div`
   background-color: var(--color-grey-0);
   border-radius: 7px;
   overflow: hidden;
+  text-overflow: clip;
 `;
 
 const CommonRow = styled.div`
@@ -31,6 +32,7 @@ const StyledHeader = styled(CommonRow)`
 
 const StyledRow = styled(CommonRow)`
   padding: 1.2rem 2.4rem;
+  overflow: hidden;
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);

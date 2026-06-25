@@ -88,6 +88,8 @@ async function createBookings() {
       extrasPrice,
       totalPrice,
       guestId: allGuestIds.at(booking.guestId - 1),
+      // guestId: 1,
+
       cabinId: allCabinIds.at(booking.cabinId - 1),
       status,
     };
@@ -135,8 +137,7 @@ function Uploader() {
         display: "flex",
         flexDirection: "column",
         gap: "8px",
-      }}
-    >
+      }}>
       <h3>SAMPLE DATA</h3>
 
       <Button onClick={uploadAll} disabled={isLoading}>
