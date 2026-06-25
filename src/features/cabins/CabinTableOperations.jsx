@@ -1,7 +1,7 @@
-import TableOperations from "./../../ui/TableOperations";
 import { discountOptions, sortOptions } from "../../utils/cabinConstants.js";
+import TableOperations from "./../../ui/TableOperations";
 import Filter from "./../../ui/Filter";
-import SortBy from "./SortBy";
+import SortBy from "../../ui/SortBy.jsx";
 
 function CabinTableOperations() {
   return (

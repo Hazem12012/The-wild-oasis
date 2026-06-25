@@ -36,9 +36,8 @@ function CabinTable() {
     return (a[field] - b[field]) * modifier;
   });
 
-
   if (isLoading) return <Spinner />;
-  if(!cabins.length) return <Empty resourceName="cabins" />;
+  if (!cabins.length) return <Empty resourceName="cabins" />;
 
   return (
     <Menus>

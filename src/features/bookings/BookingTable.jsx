@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import { useGetBookings } from "./useBookings";
 import { tableHeader } from "../../utils/bookingConstants";
 import Spinner from "../../ui/Spinner";
@@ -8,6 +9,29 @@ import Empty from "../../ui/Empty";
 
 function BookingTable() {
   const { bookings, isLoading } = useGetBookings();
+
+  const [searchParams] = useSearchParams();
+  const filterValue = searchParams.get("status") || "all";
+
+  let filterBookings;
+
+  if (filterValue === "all") {
+    filterBookings = bookings;
+  } else if (filterValue === "checked-in") {
+    filterBookings = bookings.filter(
+      (booking) => booking.status === "checked-in",
+    );
+  } else if (filterValue === "checked-out") {
+    filterBookings = bookings.filter(
+      (booking) => booking.status === "checked-out",
+    );
+  } else if (filterValue === "unconfirmed") {
+    filterBookings = bookings.filter(
+      (booking) => booking.status === "unconfirmed",
+    );
+  } else {
+    filterBookings = bookings;
+  }
 
   if (isLoading) return <Spinner />;
   if (!bookings?.length) return <Empty resourceName="bookings" />;
@@ -22,7 +46,7 @@ function BookingTable() {
         </Table.Header>
 
         <Table.Body
-          data={bookings}
+          data={filterBookings}
           render={(booking) => (
             <BookingRow key={booking.id} booking={booking} />
           )}
