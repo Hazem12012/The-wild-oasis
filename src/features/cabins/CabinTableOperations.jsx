@@ -1,15 +1,13 @@
 import TableOperations from "./../../ui/TableOperations";
+import { discountOptions, sortOptions } from "../../utils/cabinConstants.js";
 import Filter from "./../../ui/Filter";
+import SortBy from "./SortBy";
 
 function CabinTableOperations() {
-  const discountoptions = [
-    { value: "all", label: "All" },
-    { value: "no-discount", label: "No discount" },
-    { value: "with-discount", label: "With Discount" },
-  ];
   return (
     <TableOperations>
-      <Filter filterField="discount" options={discountoptions || []} />
+      <Filter filterField="discount" options={discountOptions || []} />
+      <SortBy options={sortOptions || []} />
     </TableOperations>
   );
 }

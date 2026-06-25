@@ -51,7 +51,7 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
-function CabinRow({ cabin }) {
+function CabinRow({ cabin  }) {
   const [openName, setOpenName] = useState();
   const {
     image,
@@ -77,7 +77,7 @@ function CabinRow({ cabin }) {
 
   return (
     <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-      <Table.Row role="row">
+      <Table.Row  role="row" >
         <Img src={image || ""} alt={name || "N/A"} />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Cabin>{name}</Cabin>

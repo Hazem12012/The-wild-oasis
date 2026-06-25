@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledSelect = styled.select`
@@ -13,3 +14,19 @@ const StyledSelect = styled.select`
   font-weight: 500;
   box-shadow: var(--shadow-sm);
 `;
+
+function Select({ options, onChange, ...props }) {
+  const [searchParams] = useSearchParams();
+  const sortBy = searchParams.get("sortBy") || "created_at";
+  return (
+    <StyledSelect onChange={onChange} {...props} value={sortBy}>
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </StyledSelect>
+  );
+}
+
+export default Select;
