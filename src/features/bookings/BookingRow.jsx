@@ -45,7 +45,7 @@ function BookingRow({
     totalPrice,
     status,
     guests: { fullName: guestName, email },
-    cabins: { name: cabinName },
+    cabins: { name: cabinName , image },
   },
 }) {
   const statusToTagName = {
@@ -54,13 +54,15 @@ function BookingRow({
     "checked-out": "silver",
   };
 
+
   return (
     <Table.Row>
-      <Cabin>{cabinName}</Cabin>
+      {/* <img src={image} alt={cabinName} /> */}
+      <Cabin>{cabinName || "- - -"}</Cabin>
 
       <Stacked>
-        <span>{guestName}</span>
-        <span>{email}</span>
+        <span>{guestName || "- - -"}</span>
+        <span>{email || "- - -"}</span>
       </Stacked>
 
       <Stacked>
@@ -78,7 +80,7 @@ function BookingRow({
 
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
-      <Amount>{formatCurrency(totalPrice)}</Amount>
+      <Amount>{formatCurrency(totalPrice || "")}</Amount>
     </Table.Row>
   );
 }

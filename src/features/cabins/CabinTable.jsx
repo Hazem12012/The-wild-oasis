@@ -1,3 +1,5 @@
+import { tableHeader } from "../../utils/cabinConstants";
+import { useSearchParams } from "react-router-dom";
 import { useCabins } from "./useCabins";
 import styled from "styled-components";
 import Spinner from "./../../ui/Spinner";
@@ -5,8 +7,7 @@ import CabinRow from "./CabinRow";
 import toast from "react-hot-toast";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-import { useSearchParams } from "react-router-dom";
-import { tableHeader } from "../../utils/cabinConstants";
+import Empty from "../../ui/Empty";
 
 function CabinTable() {
   const { cabins, isLoading } = useCabins();
@@ -35,9 +36,9 @@ function CabinTable() {
     return (a[field] - b[field]) * modifier;
   });
 
-  console.log(sortedCabins);
 
   if (isLoading) return <Spinner />;
+  if(!cabins.length) return <Empty resourceName="cabins" />;
 
   return (
     <Menus>
