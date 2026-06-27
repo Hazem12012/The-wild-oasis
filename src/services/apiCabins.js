@@ -1,7 +1,17 @@
 import supabase, { supabaseUrl } from "./supabase";
 
-export async function getCabins() {
-  const { data, error } = await supabase.from("cabins").select("*");
+export async function getCabins({ filter, sort }) {
+  let query = supabase.from("cabins").select("*");
+
+  if (filter) query = query[filter.method](filter.field, filter.value);
+
+  if (sort)
+    query = query[sort.method](sort.field, {
+      ascending: sort.direction === "asc",
+    });
+
+  const { data, error } = await query;
+
   if (error) {
     console.error(error);
     throw new Error("Error fetching cabins:");
@@ -35,7 +45,7 @@ export async function createEditCabin(newCabin, id) {
   // //2 upload image
 
   if (hasImagePath) return data;
-  
+
   const { data: uploadData, error: storageError } = await supabase.storage
     .from("cabin-images")
     .upload(imageName, newCabin.image);

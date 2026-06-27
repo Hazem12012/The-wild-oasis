@@ -13,8 +13,6 @@ export function useGetBookings() {
       : { field: "status", value: filterValue, method: "eq" };
 
   // SORT
-  // fileld  = VALUE1  ===>  modifier  + direction = METHOD
-
   const sortValue = searchParams.get("sortBy") || "startDate-asc";
 
   const [field, direction] = sortValue.split("-");
