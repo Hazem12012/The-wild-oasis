@@ -13,6 +13,7 @@ import Users from "./pages/Users";
 import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
 import { Toaster } from "react-hot-toast";
+import Booking from "./pages/Booking";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,20 +32,21 @@ function App() {
         <GlobalStyles />
         <Routes>
           <Route element={<AppLayout />}>
-            <Route path='dashboard' element={<Dashboard />} />
-            <Route index element={<Navigate replace to='dashboard' />} />
-            <Route path='booking' element={<Bookings />} />
-            <Route path='cabins' element={<Cabins />} />
-            <Route path='account' element={<Account />} />
-            <Route path='users' element={<Users />} />
-            <Route path='settings' element={<Settings />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route index element={<Navigate replace to="dashboard" />} />
+            <Route path="booking" element={<Bookings />} />
+            <Route path="booking/:bookingId" element={<Booking />} />
+            <Route path="cabins" element={<Cabins />} />
+            <Route path="account" element={<Account />} />
+            <Route path="users" element={<Users />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
-          <Route path='login' element={<Login />} />
-          <Route path='*' element={<PageNotFound />} />
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
       <Toaster
-        position='top-center'
+        position="top-center"
         gutter={12}
         containerStyle={{ margin: "8px" }}
         toastOptions={{
