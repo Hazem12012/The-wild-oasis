@@ -1,6 +1,7 @@
 import { StaticRouterProvider, useSearchParams } from "react-router-dom";
 import { useGetBookings } from "./useBookings";
 import { tableHeader } from "../../utils/bookingConstants";
+import Pagination from "../../ui/Pagination";
 import Spinner from "../../ui/Spinner";
 import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
@@ -8,7 +9,7 @@ import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 
 function BookingTable() {
-  const { bookings, isLoading } = useGetBookings();
+  const { bookings, isLoading, count } = useGetBookings();
 
   if (isLoading) return <Spinner />;
   if (!bookings?.length) return <Empty resourceName="bookings" />;
@@ -22,12 +23,14 @@ function BookingTable() {
         </Table.Header>
 
         <Table.Body
-          // data={filterBookings}
           data={bookings}
           render={(booking) => (
             <BookingRow key={booking.id} booking={booking} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count || 0} />
+        </Table.Footer>
       </Table>
     </Menus>
   );
