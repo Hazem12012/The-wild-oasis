@@ -1,7 +1,8 @@
+import { PAGE_SIZE } from "../utils/constants";
 import supabase, { supabaseUrl } from "./supabase";
 
-export async function getCabins({ filter, sort }) {
-  let query = supabase.from("cabins").select("*");
+export async function getCabins({ filter, sort, page }) {
+  let query = supabase.from("cabins").select("*", { count: "exact" });
 
   if (filter) query = query[filter.method](filter.field, filter.value);
 
@@ -10,13 +11,19 @@ export async function getCabins({ filter, sort }) {
       ascending: sort.direction === "asc",
     });
 
-  const { data, error } = await query;
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     console.error(error);
     throw new Error("Error fetching cabins:");
   }
-  return data;
+  return { data, count };
 }
 
 export async function createEditCabin(newCabin, id) {

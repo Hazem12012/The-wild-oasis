@@ -8,36 +8,13 @@ import toast from "react-hot-toast";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
+import Pagination from "../../ui/Pagination";
 
 function CabinTable() {
-  const { cabins, isLoading } = useCabins();
-  // const [searchParams] = useSearchParams();
-
-  // const filterValue = searchParams.get("discount") || "all";
-
-  // // filters
-  // let filterCabins;
-  // if (filterValue === "all") filterCabins = cabins;
-  // if (filterValue === "no-discount" && !isLoading)
-  //   filterCabins = cabins.filter((cabin) => cabin.discount === 0);
-  // if (filterValue === "with-discount" && !isLoading)
-  //   filterCabins = cabins.filter((cabin) => cabin.discount > 0);
-
-  // // Sort
-  // const sortBy = searchParams.get("sortBy") || "startDate-asc";
-  // const [field, direction] = sortBy.split("-");
-  // const modifier = direction === "desc" ? -1 : 1;
-
-  // const sortedCabins = filterCabins?.sort((a, b) => {
-  //   if (field === "name") {
-  //     return a.name.localeCompare(b.name) * modifier;
-  //   }
-
-  //   return (a[field] - b[field]) * modifier;
-  // });
+  const { cabins, isLoading, count } = useCabins();
 
   if (isLoading) return <Spinner />;
-  if (!cabins.length) return <Empty resourceName="cabins" />;
+  if (!cabins?.length) return <Empty resourceName="cabins" />;
 
   return (
     <Menus>
@@ -54,6 +31,9 @@ function CabinTable() {
           data={cabins}
           render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

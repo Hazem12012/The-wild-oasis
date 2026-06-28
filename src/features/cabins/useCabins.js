@@ -23,14 +23,16 @@ export function useCabins() {
   const [field, direction] = sortBy.split("-");
   const sort = { field, direction, method: "order" };
 
+  // PAGINATION
+  const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
   const {
-    data: cabins,
+    data: { data: cabins, count } = {},
     isLoading,
     isError,
     error,
   } = useQuery({
-    queryKey: ["cabins", filter, sort],
-    queryFn: () => getCabins({ filter, sort }),
+    queryKey: ["cabins", filter, sort, page],
+    queryFn: () => getCabins({ filter, sort, page }),
   });
-  return { cabins, isLoading, isError, error };
+  return { cabins, isLoading, isError, error, count };
 }
