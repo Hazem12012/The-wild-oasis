@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import { Flag } from "../../ui/Flag";
+
+import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
 import { format, isToday } from "date-fns";
 import {
   HiOutlineChatBubbleBottomCenterText,
@@ -8,9 +10,7 @@ import {
 } from "react-icons/hi2";
 
 import DataItem from "../../ui/DataItem";
-import { Flag } from "../../ui/Flag";
-
-import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
+import styled from "styled-components";
 
 const StyledBookingDataBox = styled.section`
   /* Box */

@@ -1,13 +1,18 @@
+import { useMoveBack } from "../../hooks/useMoveBack";
+import { useBooking } from "../bookings/useBooking";
+import { useState, useEffect } from "react";
+import { formatCurrency } from "../../utils/helpers";
+import { useCheckIn } from "../bookings/useCheckIn";
+
 import styled from "styled-components";
 import BookingDataBox from "../../features/bookings/BookingDataBox";
-
+import Spinner from "../../ui/Spinner";
 import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
-
-import { useMoveBack } from "../../hooks/useMoveBack";
+import Checkbox from "../../ui/Checkbox";
 
 const Box = styled.div`
   /* Box */
@@ -18,10 +23,18 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
+  const [confermPaid, setConfermPaid] = useState(false);
+  const { checkIn, isPending :isCheckedin } = useCheckIn();
+  const { data: booking, isLoading } = useBooking();
+
+
+  useEffect(() => {
+    setConfermPaid(booking?.isPaid ?? false);
+  }, [booking]);
+
   const moveBack = useMoveBack();
 
-  const booking = {};
-
+  if (isLoading) return <Spinner />;
   const {
     id: bookingId,
     guests,
@@ -29,9 +42,12 @@ function CheckinBooking() {
     numGuests,
     hasBreakfast,
     numNights,
-  } = booking;
+  } = booking || {};
 
-  function handleCheckin() {}
+  function handleCheckin() {
+    if(!confermPaid) return;
+    checkIn(bookingId);
+  }
 
   return (
     <>
@@ -42,8 +58,24 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
+      <Box>
+        <Checkbox
+          disabled={confermPaid}
+          checked={confermPaid}
+          onChange={() => setConfermPaid((confirm) => !confirm)}
+          id="confirm">
+          I confirm that {guests.fullName} has paid the total amount of{" "}
+          {formatCurrency(totalPrice, "USD")}
+        </Checkbox>
+      </Box>
+
       <ButtonGroup>
-        <Button onClick={handleCheckin}>Check in booking #{bookingId}</Button>
+        {confermPaid && (
+          <Button disabled={!confermPaid || isCheckedin} onClick={handleCheckin}>
+            Check in booking #{bookingId}
+          </Button>
+        )}
+
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>

@@ -2,7 +2,7 @@ import { formatCurrency } from "../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 import { format, isToday } from "date-fns";
 import { formatDistanceFromNow } from "../../utils/helpers";
-import { HiEye, HiTrash } from "react-icons/hi2";
+import { HiEye, HiTrash, HiArrowDownOnSquare } from "react-icons/hi2";
 import styled from "styled-components";
 import Menus from "../../ui/Menus";
 import Tag from "../../ui/Tag";
@@ -55,9 +55,7 @@ function BookingRow({
     "checked-out": "silver",
   };
 
-
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Table.Row>
       {/* <img src={image} alt={cabinName} /> */}
@@ -88,10 +86,18 @@ function BookingRow({
       <Menus>
         <Menus.Toggle id={bookingId} />
         <Menus.List id={bookingId}>
-          <Menus.Button icon={<HiEye />} onClick={()=>(navigate(`/booking/${bookingId}`))}>
+          <Menus.Button
+            icon={<HiEye />}
+            onClick={() => navigate(`/booking/${bookingId}`)}>
             See details
           </Menus.Button>
-          <Menus.Button icon={<HiTrash />}>Delete </Menus.Button>
+
+{ status === 'unconfirmed' &&  <Menus.Button
+            icon={<HiArrowDownOnSquare />}
+            onClick={() => navigate(`/checkin/${bookingId}`)} >
+            Check in
+          </Menus.Button>}
+          {/* <Menus.Button icon={<HiTrash />}>Delete </Menus.Button> */}
         </Menus.List>
       </Menus>
     </Table.Row>
