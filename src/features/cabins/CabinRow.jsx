@@ -126,8 +126,9 @@ function CabinRow({ cabin }) {
                 {/* Delete Cabin button */}
                 <Modal.Open opens="delete-cabin">
                   <Menus.Button
+                    variant="danger"
                     onClick={() => setOpenName("delete-cabin")}
-                    icon={<HiTrash />}>
+                    icon={<HiTrash color="red" />}>
                     Delete
                   </Menus.Button>
                 </Modal.Open>

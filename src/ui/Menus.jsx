@@ -39,6 +39,21 @@ const StyledList = styled.ul`
 `;
 
 const StyledButton = styled.button`
+  ${(props) => {
+    if (props.variant === "danger") {
+      return `
+        color: var(--color-red-700);
+      `;
+    }
+    if (props.variant === "secondary") {
+      return `
+        color: var(--color-grey-700);
+      `;
+    }
+    return `
+      color: var(--color-grey-600);
+    `;
+  }}
   width: 100%;
   text-align: left;
   background: none;
@@ -112,7 +127,7 @@ function List({ id, children }) {
   );
 }
 
-function Button({ children, icon, onClick }) {
+function Button({ children, icon, onClick, variant }) {
   const { close } = useContext(MenusContext);
 
   function handleClick() {
@@ -120,7 +135,7 @@ function Button({ children, icon, onClick }) {
     close();
   }
   return (
-    <StyledButton onClick={handleClick} as="button">
+    <StyledButton variant={variant} onClick={handleClick} as="button">
       {icon}
       <span>{children}</span>
     </StyledButton>
