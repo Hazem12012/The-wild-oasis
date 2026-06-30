@@ -9,7 +9,7 @@ function UpdateSettingsForm() {
   const {
     isLoading,
 
-    Settings: {
+    settings: {
       minBookingLength,
       maxGuestsPreBookings,
       breakfastPrice,

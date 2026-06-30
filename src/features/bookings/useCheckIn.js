@@ -5,10 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 export function useCheckIn() {
   const queryClient = useQueryClient();
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const { mutate: checkIn, isPending } = useMutation({
-    mutationFn: (bookingId) =>
-      updateBooking(bookingId, { status: "checked-in", isPaid: true }),
+    mutationFn: ({ bookingId, breakfast }) =>
+      updateBooking(bookingId, {
+        status: "checked-in",
+        isPaid: true,
+        ...breakfast,
+      }),
 
     onSuccess: (data) => {
       toast.success(`Booking #${data.id} successfully checked in`);
@@ -22,4 +26,3 @@ const navigate = useNavigate()
 
   return { checkIn, isPending };
 }
-  

@@ -1,6 +1,7 @@
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useParams } from "react-router-dom";
 import { useBooking } from "./useBooking";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BookingDataBox from "./BookingDataBox";
 import Row from "../../ui/Row";
@@ -19,6 +20,7 @@ const HeadingGroup = styled.div`
 
 function BookingDetail() {
   const { bookingId } = useParams();
+  const navigation = useNavigate();
   const { data: booking, isLoading } = useBooking(bookingId);
 
   const { statusbookingId } = booking || {};
@@ -45,6 +47,13 @@ function BookingDetail() {
       {!isLoading && <BookingDataBox booking={booking} />}
 
       <ButtonGroup>
+        {booking.status === "unconfirmed" && (
+          <Button
+            variation=""
+            onClick={() => navigation(`/checkin/${bookingId}`)}>
+            Check In
+          </Button>
+        )}
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
